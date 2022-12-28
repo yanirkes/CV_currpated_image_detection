@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import PIL
+sys.path.append("src")
+from pathlib import Path
 import glob
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,7 +17,7 @@ data_save = __dir__ /'data'
 resize_img_to = (56, 100)
 
 def read_file(data_dir):
-  return [f for f in glob.glob(data_dir + '/' + '*.png')]
+  return [f for f in glob.glob(str(data_dir) + '/' + '*.png')]
 
 def convert_file_to_numpy(image_file):
     """
@@ -40,7 +42,7 @@ def show_image(pic, mode='RGB'):
 def create_ds(im, lst_small, lst_large, y_small, y_large,ind):
     arr = convert_file_to_numpy(im)
     temp = 0 if ind < 160 else 1
-    if (arr.shape[0] < 56)|(arr.shape[2] != 4):
+    if (arr.shape[0] > 32)|(arr.shape[2] != 4):
         lst_large.append(arr)
         y_large.append(temp)
     else:
@@ -63,10 +65,9 @@ for ind, im in enumerate(files):
 for thrd in th_lst:
   thrd.join()
 
-
 # STACK THE ARRAYS AND SAVE THE DATA SET
 data = np.stack(lst_large)
 
 # np.save(data_save+"/data.npy", data)
-np.save(data_save+"/data_resized.npy", data)
-np.save(data_save+"/y.npy", y_large)
+np.save(data_save/"data_resized.npy", data)
+np.save(data_save/"y.npy", y_large)
