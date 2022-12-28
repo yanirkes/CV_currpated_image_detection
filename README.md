@@ -1,6 +1,6 @@
 # Objective
 
-In this project we take a database of images, that some of them are corrupted, and trying to them 
+In this project we take a database of images, that some of them are corrupted, and trying to classify them 
 using multilayered CNN model.
 
 # Process
